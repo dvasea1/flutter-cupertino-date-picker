@@ -83,16 +83,9 @@ class _PickerBottomSheetState extends State<PickerBottomSheet> {
     TimePicker.showTimePicker(
       context,
       showTitleActions: _showTitleActions,
-      minYear: 1970,
-      maxYear: 2020,
-      minDateTime: DateTime(2000),
-      maxDateTime: DateTime(2021, 5, 15),
-      initialDateTime: DateTime(2019, 1, 1),
       confirm: Text('custom ok', style: TextStyle(color: Colors.red)),
       cancel: Text('custom cancel', style: TextStyle(color: Colors.cyan)),
       locale: _lang,
-      dateFormat: _format,
-
       onCancel: () {
         debugPrint('onCancel');
       },
@@ -102,6 +95,8 @@ class _PickerBottomSheetState extends State<PickerBottomSheet> {
       onConfirm2: (hour, minute) {
         debugPrint('onConfirm2 hour: $hour minute $minute');
       },
+      initialHour: 22,
+      initialMinute: 12
     );
   }
 
@@ -129,8 +124,8 @@ class _PickerBottomSheetState extends State<PickerBottomSheet> {
                 Checkbox(
                   value: _showTitleActions,
                   onChanged: (value) => setState(() {
-                        _showTitleActions = value;
-                      }),
+                    _showTitleActions = value;
+                  }),
                 )
               ],
             ),
@@ -167,10 +162,12 @@ class _PickerBottomSheetState extends State<PickerBottomSheet> {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  Text('Selected Date:', style: Theme.of(context).textTheme.subhead),
+                  Text('Selected Date:',
+                      style: Theme.of(context).textTheme.subhead),
                   Container(
                     padding: EdgeInsets.only(left: 12.0),
-                    child: Text('$_datetime', style: Theme.of(context).textTheme.title),
+                    child: Text('$_datetime',
+                        style: Theme.of(context).textTheme.title),
                   ),
                 ],
               ),

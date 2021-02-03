@@ -14,72 +14,30 @@ class TimePicker {
   /// cancel: Custom cancel button
   /// confirm: Custom confirm button
   ///
-  static void showTimePicker(
-    BuildContext context, {
-    int minYear: DATE_PICKER_MIN_YEAR_DEFAULT,
-    int maxYear: DATE_PICKER_MAX_YEAR_DEFAULT,
-    DateTime minDateTime,
-    DateTime maxDateTime,
-    @deprecated int initialYear,
-    @deprecated int initialMonth,
-    @deprecated int initialDate,
-    DateTime initialDateTime,
-    bool showTitleActions: true,
-    Widget cancel,
-    Widget confirm,
-    DateVoidCallback onCancel,
-    @deprecated DateChangedCallback onChanged,
-    @deprecated DateChangedCallback onConfirm,
-    TimeValueCallback onChanged2,
-    TimeValueCallback onConfirm2,
-    locale: DATE_PICKER_LOCALE_DEFAULT,
-    dateFormat: DATE_PICKER_FORMAT_DEFAULT,
-  }) {
-    if (dateFormat == null || dateFormat.length == 0) {
-      dateFormat = DATE_PICKER_FORMAT_DEFAULT;
-    }
-
-    // handle the range of year
-    if (minDateTime == null) {
-      minDateTime = DateTime(minYear);
-    }
-    if (maxDateTime == null) {
-      maxDateTime = DateTime(maxYear);
-    }
-
-    // handle initial DateTime
-    DateTime now = DateTime.now();
-    if (initialYear == null) {
-      initialYear = now.year;
-    }
-    if (initialMonth == null) {
-      initialMonth = now.month;
-    }
-    if (initialDate == null) {
-      initialDate = now.day;
-    }
-    if (initialDateTime != null) {
-      initialYear = initialDateTime.year;
-      initialMonth = initialDateTime.month;
-      initialDate = initialDateTime.day;
-    }
-
+  static void showTimePicker(BuildContext context,
+      {bool showTitleActions: true,
+      Widget cancel,
+      Widget confirm,
+      DateVoidCallback onCancel,
+      TimeValueCallback onChanged2,
+      TimeValueCallback onConfirm2,
+      locale: DATE_PICKER_LOCALE_DEFAULT,
+      bool is24 = true,
+      int initialHour,
+      initialMinute}) {
     Navigator.push(
       context,
       new _TimePickerRoute(
         showTitleActions: showTitleActions,
-        minDateTime: minDateTime,
-        maxDateTime: maxDateTime,
-        initialDateTime: initialDateTime,
+        is24: is24,
+        initialHour: initialHour,
+        initialMinute: initialMinute,
         cancel: cancel,
         confirm: confirm,
-        onChanged: onChanged,
-        onConfirm: onConfirm,
-        onChanged3: onChanged2,
-        onConfirm3: onConfirm2,
+        onChanged2: onChanged2,
+        onConfirm2: onConfirm2,
         onCancel: onCancel,
         locale: locale,
-        dateFormat: dateFormat,
         theme: Theme.of(context, shadowThemeOnly: true),
         barrierLabel:
             MaterialLocalizations.of(context).modalBarrierDismissLabel,
@@ -91,38 +49,32 @@ class TimePicker {
 class _TimePickerRoute<T> extends PopupRoute<T> {
   _TimePickerRoute({
     this.showTitleActions,
-    this.minDateTime,
-    this.maxDateTime,
-    this.initialDateTime,
     this.cancel,
     this.confirm,
-    this.onChanged,
-    this.onConfirm,
-    this.onChanged3,
-    this.onConfirm3,
+    this.is24,
+    this.initialMinute,
+    this.onChanged2,
+    this.onConfirm2,
     this.onCancel,
     this.theme,
     this.barrierLabel,
     this.locale,
-    this.dateFormat,
+    this.initialHour,
     RouteSettings settings,
   }) : super(settings: settings);
 
   final bool showTitleActions;
 
-  final DateTime minDateTime, maxDateTime, initialDateTime;
-
   final Widget cancel, confirm;
   final VoidCallback onCancel;
-  final DateChangedCallback onChanged;
-  final DateChangedCallback onConfirm;
 
-  final TimeValueCallback onChanged3;
-  final TimeValueCallback onConfirm3;
+  final TimeValueCallback onChanged2;
+  final TimeValueCallback onConfirm2;
+  final bool is24;
+  final int initialHour, initialMinute;
 
   final ThemeData theme;
   final String locale;
-  final String dateFormat;
 
   @override
   Duration get transitionDuration => const Duration(milliseconds: 200);
@@ -190,10 +142,11 @@ class _TimePickerComponentStateless extends StatelessWidget {
                 cancel: route.cancel,
                 confirm: route.confirm,
                 onCancel: route.onCancel,
-                onChanged2: route.onChanged3,
-                onConfirm2: route.onConfirm3,
-                is24: false,
-
+                onChanged2: route.onChanged2,
+                onConfirm2: route.onConfirm2,
+                is24: route.is24,
+                initialHour: route.initialHour,
+                initialMinute: route.initialMinute,
               ),
             ),
           );

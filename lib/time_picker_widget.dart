@@ -48,7 +48,7 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
   @override
   void initState() {
     if (widget.is24) {
-      for (int i = 0; i < 23; i++) {
+      for (int i = 0; i < 24; i++) {
         hourValues.add(i);
       }
       this._currHour = widget.initialHour ?? 0;
