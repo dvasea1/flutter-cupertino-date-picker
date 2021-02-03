@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart';
+import 'package:flutter_cupertino_date_picker/flutter_cupertino_time_picker.dart';
 
 class PickerBottomSheet extends StatefulWidget {
   PickerBottomSheet({Key key}) : super(key: key);
@@ -34,6 +35,8 @@ class _PickerBottomSheetState extends State<PickerBottomSheet> {
   }
 
   /// Display date picker.
+  ///
+  ///
   void _showDatePicker() {
     final bool showTitleActions = false;
     DatePicker.showDatePicker(
@@ -71,6 +74,33 @@ class _PickerBottomSheetState extends State<PickerBottomSheet> {
       onConfirm2: (dateTime, List<int> index) {
         debugPrint('onConfirm2 date: $dateTime');
         debugPrint('onConfirm2 index: $index');
+      },
+    );
+  }
+
+  void _showTimePicker() {
+    final bool showTitleActions = false;
+    TimePicker.showTimePicker(
+      context,
+      showTitleActions: _showTitleActions,
+      minYear: 1970,
+      maxYear: 2020,
+      minDateTime: DateTime(2000),
+      maxDateTime: DateTime(2021, 5, 15),
+      initialDateTime: DateTime(2019, 1, 1),
+      confirm: Text('custom ok', style: TextStyle(color: Colors.red)),
+      cancel: Text('custom cancel', style: TextStyle(color: Colors.cyan)),
+      locale: _lang,
+      dateFormat: _format,
+
+      onCancel: () {
+        debugPrint('onCancel');
+      },
+      onChanged2: (hour, minute) {
+        debugPrint('onChanged2 hour: $hour minute $minute');
+      },
+      onConfirm2: (hour, minute) {
+        debugPrint('onConfirm2 hour: $hour minute $minute');
       },
     );
   }
@@ -149,7 +179,7 @@ class _PickerBottomSheetState extends State<PickerBottomSheet> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _showDatePicker,
+        onPressed: _showTimePicker,
         tooltip: 'Show DatePicker',
         child: Icon(Icons.date_range),
       ),

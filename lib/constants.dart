@@ -42,3 +42,6 @@ typedef DateValueCallback(DateTime dateTime, List<int> selectedIndex);
 
 /// Pressed cancel callback
 typedef DateVoidCallback();
+
+/// Selected value of DatePicker
+typedef TimeValueCallback(int hour, int minute);
