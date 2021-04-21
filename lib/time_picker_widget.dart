@@ -169,11 +169,15 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
           onSelectedItemChanged: (int index) => _changeHourSelection(index),
           childCount: hourValues.length,
           itemBuilder: (context, index) {
+
+            String value = '${hourValues[index]}';
+            if(value.length==1)
+              value = '0$value';
             return Container(
               height: DATE_PICKER_ITEM_HEIGHT,
               alignment: Alignment.center,
               child: Text(
-                '${hourValues[index]}',
+                value,
                 style: TextStyle(
                     color: DATE_PICKER_TEXT_COLOR,
                     fontSize: DATE_PICKER_FONT_SIZE),
@@ -206,11 +210,14 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
           onSelectedItemChanged: (int index) => _changeMinutesSelection(index),
           childCount: 60,
           itemBuilder: (context, index) {
+            String value = '$index';
+            if(value.length==1)
+              value = '0$value';
             return Container(
               height: DATE_PICKER_ITEM_HEIGHT,
               alignment: Alignment.center,
               child: Text(
-                '$index',
+                '$value',
                 style: TextStyle(
                     color: DATE_PICKER_TEXT_COLOR,
                     fontSize: DATE_PICKER_FONT_SIZE),
