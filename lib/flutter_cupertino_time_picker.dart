@@ -38,7 +38,7 @@ class TimePicker {
         onConfirm2: onConfirm2,
         onCancel: onCancel,
         locale: locale,
-        theme: Theme.of(context, shadowThemeOnly: true),
+        theme: Theme.of(context, ),
         barrierLabel:
             MaterialLocalizations.of(context).modalBarrierDismissLabel,
       ),
