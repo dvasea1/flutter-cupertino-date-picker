@@ -16,14 +16,14 @@ class TimePicker {
   ///
   static void showTimePicker(BuildContext context,
       {bool showTitleActions: true,
-      Widget cancel,
-      Widget confirm,
-      DateVoidCallback onCancel,
-      TimeValueCallback onChanged2,
-      TimeValueCallback onConfirm2,
+      Widget? cancel,
+      Widget? confirm,
+      DateVoidCallback? onCancel,
+      TimeValueCallback? onChanged2,
+      TimeValueCallback? onConfirm2,
       locale: DATE_PICKER_LOCALE_DEFAULT,
       bool is24 = true,
-      int initialHour,
+      required int initialHour,
       initialMinute}) {
     Navigator.push(
       context,
@@ -48,32 +48,32 @@ class TimePicker {
 
 class _TimePickerRoute<T> extends PopupRoute<T> {
   _TimePickerRoute({
-    this.showTitleActions,
+    this.showTitleActions = true,
     this.cancel,
     this.confirm,
-    this.is24,
-    this.initialMinute,
+    this.is24 = true,
+    required this.initialMinute,
     this.onChanged2,
     this.onConfirm2,
     this.onCancel,
     this.theme,
     this.barrierLabel,
-    this.locale,
-    this.initialHour,
-    RouteSettings settings,
+    required this.locale,
+    required this.initialHour,
+    RouteSettings? settings,
   }) : super(settings: settings);
 
   final bool showTitleActions;
 
-  final Widget cancel, confirm;
-  final VoidCallback onCancel;
+  final Widget? cancel, confirm;
+  final VoidCallback? onCancel;
 
-  final TimeValueCallback onChanged2;
-  final TimeValueCallback onConfirm2;
+  final TimeValueCallback? onChanged2;
+  final TimeValueCallback? onConfirm2;
   final bool is24;
   final int initialHour, initialMinute;
 
-  final ThemeData theme;
+  final ThemeData? theme;
   final String locale;
 
   @override
@@ -83,18 +83,18 @@ class _TimePickerRoute<T> extends PopupRoute<T> {
   bool get barrierDismissible => true;
 
   @override
-  final String barrierLabel;
+  final String? barrierLabel;
 
   @override
   Color get barrierColor => Colors.black54;
 
-  AnimationController _animationController;
+  late AnimationController _animationController;
 
   @override
   AnimationController createAnimationController() {
     assert(_animationController == null);
     _animationController =
-        BottomSheet.createAnimationController(navigator.overlay);
+        BottomSheet.createAnimationController(navigator!.overlay!);
     return _animationController;
   }
 
@@ -112,7 +112,7 @@ class _TimePickerRoute<T> extends PopupRoute<T> {
       ),
     );
     if (theme != null) {
-      bottomSheet = new Theme(data: theme, child: bottomSheet);
+      bottomSheet = new Theme(data: theme!, child: bottomSheet);
     }
     return bottomSheet;
   }
@@ -123,18 +123,18 @@ class _TimePickerComponentStateless extends StatelessWidget {
   final double _pickerHeight;
 
   _TimePickerComponentStateless(
-      {Key key, @required this.route, @required pickerHeight})
+      {Key? key, required this.route, required pickerHeight})
       : this._pickerHeight = pickerHeight;
 
   @override
   Widget build(BuildContext context) {
     return new GestureDetector(
       child: new AnimatedBuilder(
-        animation: route.animation,
-        builder: (BuildContext context, Widget child) {
+        animation: route.animation!,
+        builder: (BuildContext context, Widget? child) {
           return new ClipRect(
             child: new CustomSingleChildLayout(
-              delegate: new _BottomPickerLayout(route.animation.value,
+              delegate: new _BottomPickerLayout(route.animation!.value,
                   pickerHeight: _pickerHeight),
               child: TimePickerWidget(
                 showTitleActions: route.showTitleActions,
@@ -157,7 +157,7 @@ class _TimePickerComponentStateless extends StatelessWidget {
 }
 
 class _BottomPickerLayout extends SingleChildLayoutDelegate {
-  _BottomPickerLayout(this.progress, {this.pickerHeight});
+  _BottomPickerLayout(this.progress, {required this.pickerHeight});
 
   final double progress;
   final double pickerHeight;

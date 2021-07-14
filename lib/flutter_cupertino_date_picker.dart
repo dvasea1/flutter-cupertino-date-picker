@@ -19,20 +19,20 @@ class DatePicker {
     BuildContext context, {
     int minYear: DATE_PICKER_MIN_YEAR_DEFAULT,
     int maxYear: DATE_PICKER_MAX_YEAR_DEFAULT,
-    DateTime minDateTime,
-    DateTime maxDateTime,
-    @deprecated int initialYear,
-    @deprecated int initialMonth,
-    @deprecated int initialDate,
-    DateTime initialDateTime,
+    DateTime? minDateTime,
+    DateTime? maxDateTime,
+    @deprecated int? initialYear,
+    @deprecated int? initialMonth,
+    @deprecated int? initialDate,
+    DateTime? initialDateTime,
     bool showTitleActions: true,
-    Widget cancel,
-    Widget confirm,
-    DateVoidCallback onCancel,
-    @deprecated DateChangedCallback onChanged,
-    @deprecated DateChangedCallback onConfirm,
-    DateValueCallback onChanged2,
-    DateValueCallback onConfirm2,
+    Widget? cancel,
+    Widget? confirm,
+    DateVoidCallback? onCancel,
+    @deprecated DateChangedCallback? onChanged,
+    @deprecated DateChangedCallback? onConfirm,
+    DateValueCallback? onChanged2,
+    DateValueCallback? onConfirm2,
     locale: DATE_PICKER_LOCALE_DEFAULT,
     dateFormat: DATE_PICKER_FORMAT_DEFAULT,
   }) {
@@ -91,7 +91,7 @@ class DatePicker {
 
 class _DatePickerRoute<T> extends PopupRoute<T> {
   _DatePickerRoute({
-    this.showTitleActions,
+    this.showTitleActions = true,
     this.minDateTime,
     this.maxDateTime,
     this.initialDateTime,
@@ -104,23 +104,23 @@ class _DatePickerRoute<T> extends PopupRoute<T> {
     this.onCancel,
     this.theme,
     this.barrierLabel,
-    this.locale,
-    this.dateFormat,
-    RouteSettings settings,
+    required this.locale,
+    required this.dateFormat,
+    RouteSettings? settings,
   }) : super(settings: settings);
 
   final bool showTitleActions;
 
-  final DateTime minDateTime, maxDateTime, initialDateTime;
+  final DateTime? minDateTime, maxDateTime, initialDateTime;
 
-  final Widget cancel, confirm;
-  final VoidCallback onCancel;
-  final DateChangedCallback onChanged;
-  final DateChangedCallback onConfirm;
-  final DateValueCallback onChanged2;
-  final DateValueCallback onConfirm2;
+  final Widget? cancel, confirm;
+  final VoidCallback? onCancel;
+  final DateChangedCallback? onChanged;
+  final DateChangedCallback? onConfirm;
+  final DateValueCallback? onChanged2;
+  final DateValueCallback? onConfirm2;
 
-  final ThemeData theme;
+  final ThemeData? theme;
   final String locale;
   final String dateFormat;
 
@@ -131,18 +131,18 @@ class _DatePickerRoute<T> extends PopupRoute<T> {
   bool get barrierDismissible => true;
 
   @override
-  final String barrierLabel;
+  final String? barrierLabel;
 
   @override
   Color get barrierColor => Colors.black54;
 
-  AnimationController _animationController;
+ late AnimationController _animationController;
 
   @override
   AnimationController createAnimationController() {
     assert(_animationController == null);
     _animationController =
-        BottomSheet.createAnimationController(navigator.overlay);
+        BottomSheet.createAnimationController(navigator!.overlay!);
     return _animationController;
   }
 
@@ -160,7 +160,7 @@ class _DatePickerRoute<T> extends PopupRoute<T> {
       ),
     );
     if (theme != null) {
-      bottomSheet = new Theme(data: theme, child: bottomSheet);
+      bottomSheet = new Theme(data: theme!, child: bottomSheet);
     }
     return bottomSheet;
   }
@@ -171,18 +171,18 @@ class _DatePickerComponentStateless extends StatelessWidget {
   final double _pickerHeight;
 
   _DatePickerComponentStateless(
-      {Key key, @required this.route, @required pickerHeight})
+      {Key? key, required this.route, required pickerHeight})
       : this._pickerHeight = pickerHeight;
 
   @override
   Widget build(BuildContext context) {
     return new GestureDetector(
       child: new AnimatedBuilder(
-        animation: route.animation,
-        builder: (BuildContext context, Widget child) {
+        animation: route.animation!,
+        builder: (BuildContext context, Widget? child) {
           return new ClipRect(
             child: new CustomSingleChildLayout(
-              delegate: new _BottomPickerLayout(route.animation.value,
+              delegate: new _BottomPickerLayout(route.animation!.value,
                   pickerHeight: _pickerHeight),
               child: DatePickerWidget(
                 minDateTime: route.minDateTime,
@@ -208,7 +208,7 @@ class _DatePickerComponentStateless extends StatelessWidget {
 }
 
 class _BottomPickerLayout extends SingleChildLayoutDelegate {
-  _BottomPickerLayout(this.progress, {this.pickerHeight});
+  _BottomPickerLayout(this.progress, {required this.pickerHeight});
 
   final double progress;
   final double pickerHeight;

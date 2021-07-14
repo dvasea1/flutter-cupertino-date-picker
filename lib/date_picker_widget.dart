@@ -12,9 +12,7 @@ import 'package:flutter_cupertino_date_picker/locale_message.dart';
 /// @since 2019-05-10
 class DatePickerWidget extends StatefulWidget {
   DatePickerWidget({
-    Key key,
-    @deprecated this.minYear,
-    @deprecated this.maxYear,
+    Key? key,
     this.minDateTime,
     this.maxDateTime,
     this.initDateTime,
@@ -28,23 +26,23 @@ class DatePickerWidget extends StatefulWidget {
     this.onChanged,
     this.onConfirm,
     this.onChanged2,
-    this.onConfirm2,
+    this.onConfirm2, this.minYear, this.maxYear,
   }) : super(key: key);
 
   @deprecated
-  final int minYear, maxYear;
+  final int? minYear, maxYear;
 
-  final DateTime minDateTime, maxDateTime, initDateTime;
+  final DateTime? minDateTime, maxDateTime, initDateTime;
   final String dateFormat;
 
   final bool showTitleActions;
   final String locale;
   final Color backgroundColor;
 
-  final Widget cancel, confirm;
-  final DateVoidCallback onCancel;
-  final DateChangedCallback onChanged, onConfirm;
-  final DateValueCallback onChanged2, onConfirm2;
+  final Widget? cancel, confirm;
+  final DateVoidCallback? onCancel;
+  final DateChangedCallback? onChanged, onConfirm;
+  final DateValueCallback? onChanged2, onConfirm2;
 
   @override
   State<StatefulWidget> createState() => _DatePickerWidgetState(
@@ -53,15 +51,15 @@ class DatePickerWidget extends StatefulWidget {
 }
 
 class _DatePickerWidgetState extends State<DatePickerWidget> {
-  DateTime _minDateTime, _maxDateTime;
-  int _currYear, _currMonth, _currDay;
-  List<int> _monthRange, _dayRange;
-  FixedExtentScrollController _yearScrollCtrl, _monthScrollCtrl, _dayScrollCtrl;
+  late DateTime _minDateTime, _maxDateTime;
+  late int _currYear, _currMonth, _currDay;
+  late  List<int> _monthRange, _dayRange;
+  late FixedExtentScrollController _yearScrollCtrl, _monthScrollCtrl, _dayScrollCtrl;
 
   _DatePickerWidgetState(
-      DateTime minDateTime, DateTime maxDateTime, DateTime initDateTime,
-      {int minYear: DATE_PICKER_MIN_YEAR_DEFAULT,
-      int maxYear: DATE_PICKER_MAX_YEAR_DEFAULT}) {
+      DateTime? minDateTime, DateTime? maxDateTime, DateTime ? initDateTime,
+      {int? minYear: DATE_PICKER_MIN_YEAR_DEFAULT,
+      int? maxYear: DATE_PICKER_MAX_YEAR_DEFAULT}) {
     if (initDateTime == null) {
       initDateTime = DateTime.now();
     }
@@ -114,7 +112,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
 
   /// render title action widgets
   Widget _renderTitleWidget(BuildContext context) {
-    Widget cancelWidget = widget.cancel;
+    Widget? cancelWidget = widget.cancel;
     if (cancelWidget == null) {
       var cancelText = LocaleMessage.getLocaleCancel(widget.locale);
       cancelWidget = Text(cancelText,
@@ -122,7 +120,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
               color: Theme.of(context).unselectedWidgetColor, fontSize: 16.0));
     }
 
-    Widget confirmWidget = widget.confirm;
+    Widget? confirmWidget = widget.confirm;
     if (confirmWidget == null) {
       var confirmText = LocaleMessage.getLocaleDone(widget.locale);
       confirmWidget = Text(confirmText,
@@ -154,7 +152,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
   /// pressed cancel widget
   void _onPressedCancel() {
     if (widget.onCancel != null) {
-      widget.onCancel();
+      widget.onCancel!();
     }
     Navigator.pop(context);
   }
@@ -162,18 +160,18 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
   /// pressed confirm widget
   void _onPressedConfirm() {
     if (widget.onConfirm != null) {
-      widget.onConfirm(_currYear, _currMonth, _currDay);
+      widget.onConfirm!(_currYear, _currMonth, _currDay);
     }
     if (widget.onConfirm2 != null) {
       DateTime dateTime = DateTime(_currYear, _currMonth, _currDay);
-      widget.onConfirm2(dateTime, _calcSelectIndexList());
+      widget.onConfirm2!(dateTime, _calcSelectIndexList());
     }
     Navigator.pop(context);
   }
 
   /// render the picker widget of year、month and day
   Widget _renderDatePickerWidget() {
-    List<Widget> pickers = List<Widget>();
+    List<Widget> pickers = <Widget>[];
     List<String> formatSplit = widget.dateFormat.split('-');
     for (int i = 0; i < formatSplit.length; i++) {
       var format = formatSplit[i];
@@ -239,7 +237,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
   }
 
   /// render the picker component of month
-  Widget _renderMonthsPickerComponent(String monthAppend, {String format}) {
+  Widget _renderMonthsPickerComponent(String monthAppend, {String? format}) {
     return Expanded(
       flex: 1,
       child: Container(
@@ -409,11 +407,11 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
   /// notify selected date changed
   void _notifyDateChanged() {
     if (widget.onChanged != null) {
-      widget.onChanged(_currYear, _currMonth, _currDay);
+      widget.onChanged!(_currYear, _currMonth, _currDay);
     }
     if (widget.onChanged2 != null) {
       DateTime dateTime = DateTime(_currYear, _currMonth, _currDay);
-      widget.onChanged2(dateTime, _calcSelectIndexList());
+      widget.onChanged2!(dateTime, _calcSelectIndexList());
     }
   }
 

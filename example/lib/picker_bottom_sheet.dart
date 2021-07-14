@@ -3,7 +3,7 @@ import 'package:flutter_cupertino_date_picker/flutter_cupertino_date_picker.dart
 import 'package:flutter_cupertino_date_picker/flutter_cupertino_time_picker.dart';
 
 class PickerBottomSheet extends StatefulWidget {
-  PickerBottomSheet({Key key}) : super(key: key);
+  PickerBottomSheet({Key? key}) : super(key: key);
 
   @override
   _PickerBottomSheetState createState() => _PickerBottomSheetState();
@@ -124,7 +124,7 @@ class _PickerBottomSheetState extends State<PickerBottomSheet> {
                 Checkbox(
                   value: _showTitleActions,
                   onChanged: (value) => setState(() {
-                    _showTitleActions = value;
+                    _showTitleActions = value!;
                   }),
                 )
               ],

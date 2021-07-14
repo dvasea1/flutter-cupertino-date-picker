@@ -9,7 +9,7 @@ import 'package:flutter_cupertino_date_picker/locale_message.dart';
 /// @since 2019-05-10
 class TimePickerWidget extends StatefulWidget {
   TimePickerWidget(
-      {Key key,
+      {Key? key,
       this.showTitleActions: false,
       this.is24 = true,
       this.backgroundColor: Colors.white,
@@ -29,18 +29,18 @@ class TimePickerWidget extends StatefulWidget {
   final int initialHour, initialMinute;
   final String locale;
 
-  final Widget cancel, confirm;
-  final DateVoidCallback onCancel;
-  final TimeValueCallback onChanged2, onConfirm2;
+  final Widget? cancel, confirm;
+  final DateVoidCallback? onCancel;
+  final TimeValueCallback? onChanged2, onConfirm2;
 
   @override
   State<StatefulWidget> createState() => _TimePickerWidgetState();
 }
 
 class _TimePickerWidgetState extends State<TimePickerWidget> {
-  FixedExtentScrollController _hourScrollCtrl, _minutesScrollCtrl;
+  late FixedExtentScrollController _hourScrollCtrl, _minutesScrollCtrl;
 
-  int _currHour, _currMinute;
+  late int _currHour, _currMinute;
   List<int> hourValues = [];
 
   _TimePickerWidgetState();
@@ -87,7 +87,7 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
 
   /// render title action widgets
   Widget _renderTitleWidget(BuildContext context) {
-    Widget cancelWidget = widget.cancel;
+    Widget? cancelWidget = widget.cancel;
     if (cancelWidget == null) {
       var cancelText = LocaleMessage.getLocaleCancel(widget.locale);
       cancelWidget = Text(cancelText,
@@ -95,7 +95,7 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
               color: Theme.of(context).unselectedWidgetColor, fontSize: 16.0));
     }
 
-    Widget confirmWidget = widget.confirm;
+    Widget? confirmWidget = widget.confirm;
     if (confirmWidget == null) {
       var confirmText = LocaleMessage.getLocaleDone(widget.locale);
       confirmWidget = Text(confirmText,
@@ -127,7 +127,7 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
   /// pressed cancel widget
   void _onPressedCancel() {
     if (widget.onCancel != null) {
-      widget.onCancel();
+      widget.onCancel!();
     }
     Navigator.pop(context);
   }
@@ -135,14 +135,14 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
   /// pressed confirm widget
   void _onPressedConfirm() {
     if (widget.onConfirm2 != null) {
-      widget.onConfirm2(widget.is24? _currHour: _currHour+12, _currMinute);
+      widget.onConfirm2!(widget.is24? _currHour: _currHour+12, _currMinute);
     }
     Navigator.pop(context);
   }
 
   /// render the picker widget of year、month and day
   Widget _renderTimePickerWidget() {
-    List<Widget> pickers = List<Widget>();
+    List<Widget> pickers = <Widget>[];
     String yearAppend = LocaleMessage.getLocaleYearUnit(widget.locale);
     pickers.add(_renderHoursPickerComponent(yearAppend));
 
@@ -196,7 +196,7 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
   }
 
   /// render the picker component of month
-  Widget _renderMinutesPickerComponent(String monthAppend, {String format}) {
+  Widget _renderMinutesPickerComponent(String monthAppend, {String? format}) {
     return Expanded(
       flex: 1,
       child: Container(
@@ -237,7 +237,7 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
   /// notify selected date changed
   void _notifyDateChanged() {
     if (widget.onChanged2 != null) {
-      widget.onChanged2(widget.is24? _currHour: _currHour+12, _currMinute);
+      widget.onChanged2!(widget.is24? _currHour: _currHour+12, _currMinute);
     }
   }
 }

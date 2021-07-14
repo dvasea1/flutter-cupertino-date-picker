@@ -5,14 +5,14 @@ import 'package:flutter_cupertino_date_picker/date_picker_widget.dart';
 /// @author dylan wu
 /// @since 2019-05-10
 class PickerInPage extends StatefulWidget {
-  PickerInPage({Key key}) : super(key: key);
+  PickerInPage({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _PickerInPageState();
 }
 
 class _PickerInPageState extends State<PickerInPage> {
-  DateTime _currDateTime;
+  late DateTime _currDateTime;
 
   @override
   Widget build(BuildContext context) {
