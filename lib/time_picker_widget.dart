@@ -51,15 +51,15 @@ class _TimePickerWidgetState extends State<TimePickerWidget> {
       for (int i = 0; i < 24; i++) {
         hourValues.add(i);
       }
-      this._currHour = widget.initialHour ?? 0;
-      this._currMinute = widget.initialMinute ?? 0;
+      this._currHour = widget.initialHour ;
+      this._currMinute = widget.initialMinute ;
     } else {
       for (int i = 1; i < 13; i++) {
         hourValues.add(i);
       }
-      int hour = widget.initialHour ?? 0;
+      int hour = widget.initialHour ;
       this._currHour = hour > 12 ? hour - 12 : hour;
-      this._currMinute = widget.initialMinute ?? 0;
+      this._currMinute = widget.initialMinute ;
     }
 
     _hourScrollCtrl = FixedExtentScrollController(initialItem: _currHour);
